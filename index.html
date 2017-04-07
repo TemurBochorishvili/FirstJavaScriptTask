@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>JS Project</title>
+</head>
+
+<body>
+    <form id="Frm1" style="width:50%">
+        სესხის სახეობა:
+        <select id="LoanType">
+            <option value="0">სამომხმარებლო სესხი</option>
+            <option value="1">იპოთეკური სესხი</option>
+            <option value="2">უნივერსალური იპოთეკა</option>
+            <option value="3">ავტოსესხი-ახალი ავტომობილი</option>
+            <option value="4">ავტოსესხი-მეორადი ავტომობილი</option>
+            <option value="5">ავტოსესხი იურიდიული პირებისთვის</option>
+        </select><br><br> სესხის ვალუტა:
+        <select id="mySelect" onchange="currency()">
+            <option value="0">GEL</option>
+            <option value="1">USD</option>
+            <option value="2">EUR</option>
+        </select>
+        <br><br> 
+        საპროცენტო განაკვეთი
+        <input type="text" name="Procent" value="8"> <br><br>
+        სესხის თანხა
+        <input type="text" id="procent" name="Procent" value="1000">
+        <span id="Currency"></span><br><br> 
+        სესხის ვადა
+        <input type="text" name="LoanTerm" value="3"><br><br>
+    </form>
+
+    <button type="" onclick="mySubmit()">გამოთვლა</button>
+
+    <section style="width:50%;background:#7FFFD4">
+        საპროცენტო განაკვეთი: <span id="procentRate"></span><br> სესხისა და პროცენტის ყოველთვიური შენატანი: <span id="monthlyInput"></span><br>
+
+        <table>
+    <tr>
+        <th colspan="5">სესხის დაფარვის გრაფიკი</th>
+    </tr>
+    <tr>
+        <th>თვე</th>
+        <th>ყოველთვიური შენატანი (სესხი + პროცენტი)</th>
+        <th>სესხი</th>
+        <th>პროცენტი</th>
+        <th>ნაშთი</th>
+    </tr>
+    <!--<script>
+        for (var index = 0; index < loanTerm; index++) {
+            <tr>
+                for (var index = 0; index < loanTerm; index++) {
+
+                    
+                        <th>
+                            
+                        </th>
+                    
+                    
+                }
+            </tr>
+        }
+                
+        </script>-->
+</table>
+</section>
+
+<p id="demo"></p>
+
+<script>
+    function mySubmit() {
+        var procentRate = document.forms["Frm1"][2].value; //დეფოლტად არ აღიქვამს რაც Value - ში მაქვს მითითებული;
+        document.getElementById("procentRate").innerHTML = procentRate;
+
+        var loanTerm = document.forms["Frm1"][4].value;
+
+        var monthlyInput = ((1 + (procentRate / 100)) * document.forms["Frm1"][3].value) / loanTerm; //დეფოლტად არ აღიქვამს რაც Value - ში მაქვს მითითებული;
+        document.getElementById("monthlyInput").innerHTML = monthlyInput;
+
+        currency();
+    }
+
+    function currency() {
+        var x = document.getElementById("mySelect").selectedIndex; 
+        var strUser = document.getElementsByTagName("option")[x].value;
+
+        switch (strUser) {
+            case "0":
+                console.log(strUser);
+                document.getElementById("Currency").innerHTML = "ლარი";
+                break;
+            case "1":
+                console.log(strUser);
+                document.getElementById("Currency").innerHTML = "დოლარი";
+                break;
+            case "2":
+                console.log(strUser);
+                document.getElementById("Currency").innerHTML = "ევრო";
+                break;
+            // default: არ მუშაობს
+            //     document.getElementById("Currency").innerHTML = "ლარი";
+        }
+    }
+</script>
+
+
+
+</body>
+
+</html>
