@@ -30,7 +30,7 @@
         <input type="text" name="Procent" value="8"> <br><br>
         სესხის თანხა
         <input type="text" id="procent" name="Procent" value="1000">
-        <span id="Currency"></span><br><br> 
+        <span id="Currency">ლარი</span><br><br> 
         სესხის ვადა
         <input type="text" name="LoanTerm" value="3"><br><br>
     </form>
@@ -38,37 +38,13 @@
     <button type="" onclick="mySubmit()">გამოთვლა</button>
 
     <section style="width:50%;background:#7FFFD4">
-        საპროცენტო განაკვეთი: <span id="procentRate"></span><br> სესხისა და პროცენტის ყოველთვიური შენატანი: <span id="monthlyInput"></span><br>
+        საპროცენტო განაკვეთი: <span id="procentRate">8</span><br> 
+        სესხისა და პროცენტის ყოველთვიური შენატანი: <span id="monthlyInput">132</span><br>
 
-        <table>
-    <tr>
-        <th colspan="5">სესხის დაფარვის გრაფიკი</th>
-    </tr>
-    <tr>
-        <th>თვე</th>
-        <th>ყოველთვიური შენატანი (სესხი + პროცენტი)</th>
-        <th>სესხი</th>
-        <th>პროცენტი</th>
-        <th>ნაშთი</th>
-    </tr>
-    <!--<script>
-        for (var index = 0; index < loanTerm; index++) {
-            <tr>
-                for (var index = 0; index < loanTerm; index++) {
-
-                    
-                        <th>
-                            
-                        </th>
-                    
-                    
-                }
-            </tr>
-        }
-                
-        </script>-->
-</table>
-</section>
+        <div id="tableResult">
+        	
+        </div>
+	</section>
 
 <p id="demo"></p>
 
@@ -79,15 +55,40 @@
 
         var loanTerm = document.forms["Frm1"][4].value;
 
+        var loan = document.forms["Frm1"][3].value / loanTerm; 
+
+        
+
         var monthlyInput = ((1 + (procentRate / 100)) * document.forms["Frm1"][3].value) / loanTerm; //დეფოლტად არ აღიქვამს რაც Value - ში მაქვს მითითებული;
+
+        var procent = monthlyInput - loan;
         document.getElementById("monthlyInput").innerHTML = monthlyInput;
 
         currency();
+
+        var result = "<table><tr><td colspan='5'>სესხის დაფარვის გრაფიკი</td></tr><tr><td>თვე</td><td>ყოველთვიური შენატანი (სესხი + პროცენტი)</td><td>სესხი</td><td>პროცენტი</td><td>ნაშთი</td></tr>";
+		   var temp = document.forms["Frm1"][3].value;
+		   for (var index = 1; index <= loanTerm; index++) {
+		   		temp-=monthlyInput;
+		   		
+		   		result += "<tr> <td>" + index + "</td> <td>" 
+		            		+ monthlyInput + "</td> <td>" + loan + "</td> <td>" + procent + "</td> <td>" + temp;
+		            		if(temp<monthlyInput){
+		            monthlyInput = temp;
+		   		}
+		    }
+                
+        	document.getElementById("tableResult").innerHTML = result;
+		
+
+
     }
 
     function currency() {
         var x = document.getElementById("mySelect").selectedIndex; 
         var strUser = document.getElementsByTagName("option")[x].value;
+
+        var defaultString = "ლარი";
 
         switch (strUser) {
             case "0":
@@ -102,8 +103,8 @@
                 console.log(strUser);
                 document.getElementById("Currency").innerHTML = "ევრო";
                 break;
-            // default: არ მუშაობს
-            //     document.getElementById("Currency").innerHTML = "ლარი";
+            default: 
+                document.getElementById("Currency").innerHTML = "ლარი";
         }
     }
 </script>
